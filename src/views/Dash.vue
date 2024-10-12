@@ -28,9 +28,11 @@
             <div class="col-1"></div>
             <Sequencer v-if="custom_loaded && custom_node !== undefined && custom_node !== ''" :address="address" network="custom" name="Custom Node" />
             <div v-if="custom_loaded && custom_node !== undefined && custom_node !== ''" class="col-1"></div>
-            <Sequencer v-if="loaded" :address="address" network="xrpl1" name="Ripple s1" />
+            <Sequencer v-if="loaded" :address="address" network="xrpl1" name="XRPL Panicbot" />
             <div class="col-1"></div>
-            <Sequencer v-if="loaded" :address="address" network="xrpl2" name="XRPL Cluster" />
+            <Sequencer v-if="loaded" :address="address" network="xrpl2" name="Ripple s1" />
+            <div class="col-1"></div>
+            <Sequencer v-if="loaded" :address="address" network="xrpl3" name="XRPL Cluster" />
             <div class="col-1"></div>
             <Sequencer v-if="loaded" :address="address" network="xahau1" name="XAHAU Panicbot" />
             <div class="col-1"></div>
@@ -74,17 +76,20 @@ export default {
         ledger3.close()
         const ledger4 = this.$store.getters.getClient('xahau2')
         ledger4.close()
+        const ledger5 = this.$store.getters.getClient('xrpl3')
+        ledger5.close()
 
         if (this.custom !== undefined) {
-            const ledger5 = this.$store.getters.getClient('custom')
-            ledger5.close()
+            const ledger6 = this.$store.getters.getClient('custom')
+            ledger6.close()
         }
         
     },
     async mounted() {
         console.log('Dash mounted')
         await this.connectXrpl(import.meta.env.VITE_APP_XRPL_LOCAL_WSS.split(', '), 'xrpl1')
-        await this.connectXrpl(import.meta.env.VITE_APP_XRPL_WSS.split(', '), 'xrpl2')
+        await this.connectXrpl(import.meta.env.VITE_APP_XRPL_RIPPLE_WSS.split(', '), 'xrpl2')
+        await this.connectXrpl(import.meta.env.VITE_APP_XRPL_WSS.split(', '), 'xrpl3')
 
         
         await this.connectXahau(import.meta.env.VITE_APP_XAH_LOCAL_WSS.split(', '), 'xahau1')
