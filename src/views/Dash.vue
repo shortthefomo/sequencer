@@ -25,9 +25,9 @@
             </div>
         </div>
         <div class="row mb-2">
-            <div class="col-1"></div>
-            <Sequencer v-if="custom_loaded && custom_node !== undefined && custom_node !== ''" :address="address" network="custom" name="Custom Node" />
-            <div v-if="custom_loaded && custom_node !== undefined && custom_node !== ''" class="col-1"></div>
+            <div v-if="!custom_loaded" class="col-1"></div>
+            <Sequencer v-if="custom_loaded " :address="address" network="custom" name="Custom Node" />
+            <div v-if="custom_loaded" class="col-1"></div>
             <Sequencer v-if="loaded" :address="address" network="xrpl1" name="XRPL Panicbot" />
             <div class="col-1"></div>
             <Sequencer v-if="loaded" :address="address" network="xrpl2" name="Ripple s1" />
