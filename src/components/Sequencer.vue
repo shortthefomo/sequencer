@@ -52,7 +52,7 @@ export default {
 
       this.debounced_tx = {...data}
       // console.log(this.network, 'debounced', Object.entries(data).length)
-    }, 200)
+    }, 100)
   },
   unmounted() {
     this.loaded = false
