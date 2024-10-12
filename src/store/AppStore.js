@@ -31,6 +31,15 @@ export const AppStore = {
             history: [],
             trustlines: []
         },
+        xrpl3: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
         xahau1: {
             client: null,
             nodes: [],
