@@ -49,6 +49,15 @@ export const AppStore = {
             history: [],
             trustlines: []
         },
+        custom: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
         bitrue: {
             client: null,
             balances: {},

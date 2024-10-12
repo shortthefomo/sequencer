@@ -12,8 +12,22 @@
                 <input class="mt-2 bg-dark text-light" v-model="address" placeholder="rAddress"/>
             </div>
         </div>
+        <div class="row mb-4 ms-0">
+            
+            <div class="col">
+                <label class="pe-2 text-light">custom node</label>
+                <select v-model="custom_network">
+                    <option v-for="option in custom_networks" :value="option.value">
+                        {{ option.text }}
+                    </option>
+                </select>
+                <input class="ms-2 bg-dark text-light" v-model="custom_input" placeholder="wss://"/>
+                <button class="btn btn-sm btn-outline-light ms-4" @click="addCustomNode()">add node</button>
+            </div>
+        </div>
         <div class="row mb-2">
-            <div class="col-1"></div>
+            <div v-if="custom_node !== undefined && custom_node !== ''" class="col-1"></div>
+            <Sequencer v-if="custom_node !== undefined && custom_node !== ''" :address="address" network="custom" name="Custom Node" />
             <div class="col-1"></div>
             <Sequencer v-if="loaded" :address="address" network="xrpl1" name="Ripple s1" />
             <div class="col-1"></div>
@@ -37,8 +51,15 @@ export default {
     },
     data() {
         return {
+            custom_input: undefined,
+            custom_node: undefined,
             address: undefined,
             loaded: false,
+            custom_networks: [
+                { text: 'xrpl', value: 'xrpl' },
+                { text: 'xahau', value: 'xahau' },
+            ],
+            custom_network: 'xrpl'
         }
     },
     computed: {
@@ -53,6 +74,11 @@ export default {
         ledger3.close()
         const ledger4 = this.$store.getters.getClient('xahau2')
         ledger4.close()
+
+        if (this.custom !== undefined) {
+            const ledger5 = this.$store.getters.getClient('custom')
+            ledger5.close()
+        }
         
     },
     async mounted() {
@@ -66,6 +92,16 @@ export default {
         this.loaded = true
     },
     methods: {
+        addCustomNode() {
+            this.custom_node = this.custom_input
+            if (this.custom_node === '' || this.custom_node === 'wss://')
+            if (this.custom_network === 'xrpl') {
+                this.connectXrpl(this.custom_node, 'custom')
+            }
+            if (this.custom_network === 'xahau') {
+                this.connectXahau(this.custom_node, 'custom')
+            }
+        },
         async pause(milliseconds = 1000) {
             return new Promise(resolve => {
                 console.log('pausing....')
