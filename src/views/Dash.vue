@@ -12,8 +12,7 @@
                 <input class="mt-2 bg-dark text-light" v-model="address" placeholder="rAddress"/>
             </div>
         </div>
-        <div class="row mb-4 ms-0">
-            
+        <div v-if="loaded" class="row mb-4 ms-0">
             <div class="col">
                 <label class="pe-2 text-light">custom node</label>
                 <select v-model="custom_network">
@@ -26,9 +25,9 @@
             </div>
         </div>
         <div class="row mb-2">
-            <div v-if="custom_node !== undefined && custom_node !== ''" class="col-1"></div>
-            <Sequencer v-if="custom_node !== undefined && custom_node !== ''" :address="address" network="custom" name="Custom Node" />
             <div class="col-1"></div>
+            <Sequencer v-if="custom_loaded && custom_node !== undefined && custom_node !== ''" :address="address" network="custom" name="Custom Node" />
+            <div v-if="custom_loaded && custom_node !== undefined && custom_node !== ''" class="col-1"></div>
             <Sequencer v-if="loaded" :address="address" network="xrpl1" name="Ripple s1" />
             <div class="col-1"></div>
             <Sequencer v-if="loaded" :address="address" network="xrpl2" name="XRPL Cluster" />
@@ -53,6 +52,7 @@ export default {
         return {
             custom_input: undefined,
             custom_node: undefined,
+            custom_loaded: false,
             address: undefined,
             loaded: false,
             custom_networks: [
@@ -90,17 +90,22 @@ export default {
         await this.connectXahau(import.meta.env.VITE_APP_XAH_LOCAL_WSS.split(', '), 'xahau1')
         await this.connectXahau(import.meta.env.VITE_APP_XAH_WSS.split(', '), 'xahau2')
         this.loaded = true
+        console.log('loaded')
     },
     methods: {
-        addCustomNode() {
+        async addCustomNode() {
             this.custom_node = this.custom_input
-            if (this.custom_node === '' || this.custom_node === 'wss://')
+            this.custom_loaded = false
+            if (this.custom_node === '' || this.custom_node === 'wss://') { return }
             if (this.custom_network === 'xrpl') {
-                this.connectXrpl(this.custom_node, 'custom')
+                await this.connectXrpl([this.custom_node], 'custom')
             }
             if (this.custom_network === 'xahau') {
-                this.connectXahau(this.custom_node, 'custom')
+                await this.connectXahau([this.custom_node], 'custom')
             }
+            await this.pause()
+            console.log('custom loaded', this.custom_network)
+            this.custom_loaded = true
         },
         async pause(milliseconds = 1000) {
             return new Promise(resolve => {
