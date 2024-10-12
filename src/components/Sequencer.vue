@@ -1,5 +1,5 @@
 <template>
-  <div class="col-1 text-light">
+  <div class="col-2 text-light">
     <h2>{{ name }}</h2>
     <p class="ms-2">
       index: {{ ledger_index }}<br/>

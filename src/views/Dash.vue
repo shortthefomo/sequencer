@@ -25,17 +25,17 @@
             </div>
         </div>
         <div class="row mb-2">
-            <div v-if="!custom_loaded" class="col-1"></div>
+            
             <Sequencer v-if="custom_loaded " :address="address" network="custom" name="Custom Node" />
-            <div v-if="custom_loaded" class="col-1"></div>
+            
             <Sequencer v-if="loaded" :address="address" network="xrpl1" name="XRPL Panicbot" />
-            <div class="col-1"></div>
+            
             <Sequencer v-if="loaded" :address="address" network="xrpl2" name="Ripple s1" />
-            <div class="col-1"></div>
+            
             <Sequencer v-if="loaded" :address="address" network="xrpl3" name="XRPL Cluster" />
-            <div class="col-1"></div>
+            
             <Sequencer v-if="loaded" :address="address" network="xahau1" name="XAHAU Panicbot" />
-            <div class="col-1"></div>
+            
             <Sequencer v-if="loaded" :address="address" network="xahau2" name="XAHAU Cluster" />
         </div>
     </div>
