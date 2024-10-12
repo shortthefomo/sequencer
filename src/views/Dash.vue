@@ -6,14 +6,22 @@
                 <h1>sequencer</h1>
             </div>
         </div>
-        <div class="row mb-2 ms-0">
+        <div class="row mb-0 ms-0">
             <div class="col">
                 <label class="pe-2 text-light">monitor</label>
-                <input class="mt-2 bg-dark text-light" v-model="address" placeholder="rAddress"/>
+                <input class="mt-2" v-model="address" placeholder="rAddress"/>
+            </div>
+            <div class="col bg-dark">
+                <div class="transaction mt-2"></div>
+                <small class="ps-2">Proposed transaction awaiting addition to the ledger.</small>
+            </div>
+            <div class="col bg-dark">
+                <div class="transaction validated mt-2"></div>
+                <small class="ps-2">Transaction that has been added to the ledger.</small>
             </div>
         </div>
-        <div v-if="loaded" class="row mb-4 ms-0">
-            <div class="col">
+        <div class="row mb-4 ms-0">
+            <div class="col mt-4">
                 <label class="pe-2 text-light">custom node</label>
                 <select v-model="custom_network">
                     <option v-for="option in custom_networks" :value="option.value">
@@ -23,10 +31,20 @@
                 <input class="ms-2 bg-dark text-light" v-model="custom_input" placeholder="wss://"/>
                 <button class="btn btn-sm btn-outline-light ms-4" @click="addCustomNode()">add node</button>
             </div>
+            <div class="col bg-dark">
+                <div class="transaction address mt-2"></div>
+                <small class="ps-2">Proposed transaction by monitored address.</small>
+            </div>
+            <div class="col bg-dark">
+                <div class="transaction validated address mt-2"></div>
+                <small class="ps-2">Validated transaction by monitored address.</small>
+            </div>
         </div>
-        <div class="row mb-2">
+        <div class="row mt-4 mb-4"><div class="col"></div></div>
+        <div class="row mt-4 mb-4"><div class="col"></div></div>
+        <div class="row mt-4 mb-2">
             
-            <Sequencer v-if="custom_loaded " :address="address" network="custom" name="Custom Node" />
+            <Sequencer v-if="loaded" :address="address" :custom_loaded="custom_loaded" network="custom" name="Custom Node" />
             
             <Sequencer v-if="loaded" :address="address" network="xrpl1" name="XRPL Panicbot" />
             
@@ -147,6 +165,25 @@ export default {
 <style lang="scss">
 html {
     font-size:0.875em;
+}
+
+.transaction {
+  width: 4px;
+  height: 10px;;
+  border: solid 1px white;
+  float: left;
+  margin-top: 1px;
+  margin-left: 1px;
+}
+.validated {
+  border: solid 1px #00e56a;
+}
+.address {
+  background-color: white;
+}
+
+.validated.address {
+  background-color: #00e56a;
 }
 
 .btn-outline-pink {

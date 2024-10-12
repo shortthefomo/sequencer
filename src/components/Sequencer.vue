@@ -1,5 +1,5 @@
 <template>
-  <div class="col-2 text-light">
+  <div :class="(custom_loaded !== undefined && !custom_loaded) ? 'col-2 text-light bg-dark opacity-25': 'col-2 text-light'">
     <h2>{{ name }}</h2>
     <p class="ms-2">
       index: {{ ledger_index }}<br/>
@@ -19,7 +19,7 @@ import { debounce } from 'lodash'
 
 export default {
   name: 'Sequencer',
-  props: ['address', 'network', 'name'],
+  props: ['address', 'network', 'name', 'custom_loaded'],
   emits: [],
   data() {
     return {
@@ -36,7 +36,11 @@ export default {
       loaded: false,
     }
   },
-  mounted() {
+  async mounted() {
+    while (!this.custom_loaded && this.custom_loaded !== undefined) {
+      await this.pause()
+    }
+
     this.load()
     this.queue()
     this.loaded = true
@@ -67,6 +71,12 @@ export default {
 
   },
   methods: {
+    async pause(milliseconds = 1000) {
+      return new Promise(resolve => {
+        // console.log('pausing....')
+        setTimeout(resolve, milliseconds)
+      })
+    },
     queue() {
       const self = this
       this.timeout = setTimeout(async () => {
@@ -111,24 +121,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.transaction {
-  width: 4px;
-  height: 10px;;
-  border: solid 1px white;
-  float: left;
-  margin-top: 1px;
-  margin-left: 1px;
-}
-.validated {
-  border: solid 1px #00e56a;
-}
-.address {
-  background-color: white;
-}
-
-.validated.address {
-  background-color: #00e56a;
-}
-
-
 </style>
