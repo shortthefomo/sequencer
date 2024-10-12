@@ -78,7 +78,7 @@ export default {
         self.current_queue_size = fee.current_queue_size
         self.current_ledger_size = fee.current_ledger_size
         self.queue()
-      }, 200)
+      }, 400)
     },
     addClasses(tx) {
       let classes = 'transaction'
