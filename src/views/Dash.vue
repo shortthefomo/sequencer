@@ -152,7 +152,7 @@ html {
   background-color: white;
 }
 .transaction.faded {
-  opacity: 0.9;
+  opacity: 0.8;
 //   visibility: hidden;
 //   opacity: 0;
 //   transition: visibility 0s 2s, opacity 2s linear;

@@ -1,16 +1,16 @@
 <template>
-    <div class="row mt-4 mb-4">
-        <div v-for="(node, index) in connections">
-            <small class="col-2">{{ node.name }} {{ node.ledger_index }}, ledger size: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</small>
-            <div class="col-10">
-                <div class="mb-2" v-if="transactions_proposed !== undefined && transactions_proposed['main'] !== undefined">
-                    <div v-for="(hash) in transactions_proposed['main']">
-                        <div :class="addClasses(index, hash)"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="row mt-4 mb-4" v-for="(node, index) in connections">
+		<p class="col-1">{{ node.name }}<br/></p>
+		
+		<div class="col-11">
+			<div class="mb-2" v-if="transactions_proposed !== undefined && transactions_proposed['main'] !== undefined">
+				<div v-for="(hash) in transactions_proposed['main']">
+					<div :class="addClasses(index, hash)"></div>
+				</div>
+			</div>
+			<div class="row"><span class="opacity-25">{{ node.ledger_index }}, ledgers: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</span></div>
+		</div>
+	</div>
 </template>
 
 <script>
