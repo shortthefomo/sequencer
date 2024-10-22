@@ -1,7 +1,7 @@
 <template>
     <div class="row mt-4 mb-4">
         <div v-for="(node, index) in connections">
-            <small class="col-2">{{ node.name }} {{ node.ledger_index }}, ledger size: {{ node.current_ledger_size }}, queue: {{ node.current_queue_size }}</small>
+            <small class="col-2">{{ node.name }} {{ node.ledger_index }}, ledger size: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</small>
             <div class="col-10">
                 <div class="mb-2" v-if="transactions_proposed !== undefined && transactions_proposed['main'] !== undefined">
                     <div v-for="(hash) in transactions_proposed['main']">
@@ -106,14 +106,15 @@ export default {
                 name: name,
                 current_queue_size: 0,
                 current_ledger_size: 0,
-                ledger_index: 0
+                ledger_index: 0,
+				peers: 0
             }
             this.transactions_proposed[connection] = {}
             if (this.transactions_proposed['main'] == undefined) { this.transactions_proposed['main'] = [] }
             const subscribe = await this.connections[connection].client.send({
 				id: 'sequencer-' + connection.name,
 				command: 'subscribe',
-				streams: ['transactions', 'transactions_proposed']
+				streams: ['ledger', 'transactions', 'transactions_proposed']
 			})
         
             const callback = async (tx) => {
@@ -149,7 +150,14 @@ export default {
                 this.debounced_transactions(this.transactions_proposed)
             }
 			this.connections[connection].client.on('transaction', callback)
+			
+			const ledger = async (tx) => {
+				const server_info = await this.connections[connection].client.send({'id': 'get-server-fee', 'command': 'server_info'})
+				this.connections[connection].peers = (server_info.info?.peers === undefined) ? '-' : server_info.info?.peers
+				console.log('server_info', server_info)
+			}
 
+			this.connections[connection].client.on('ledger', ledger)
 		},
 	}
 }
