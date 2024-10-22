@@ -152,6 +152,9 @@ html {
 .address {
   background-color: white;
 }
+.transaction.faded {
+    opacity: 0.25;
+}
 
 .validated.address {
   background-color: orange;

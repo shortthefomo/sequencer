@@ -24,7 +24,7 @@ export default {
 	data() {
 		return {
 			peers: 0,
-			window_size: 10,
+			window_size: 5,
 			ledger_index: 0,
 			transactions_proposed: {},
 			debounced_transactions: undefined,
@@ -96,7 +96,8 @@ export default {
             if (tx.transaction === undefined) { return classes }
 			if (tx.validated) { classes += ' validated' }
 			if (tx.transaction.Account === this.address) { classes += ' address' }
-			
+			if (tx.ledger_current_index !== undefined && (this.ledger_index - tx.ledger_current_index > 3) ) { classes += ' faded' }
+			if (tx.ledger_index !== undefined && (this.ledger_index - tx.ledger_index > 3)) { classes += ' faded' }
 			return classes
 		},
 		async loadClient(connection, name) {
@@ -163,3 +164,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped></style>
+
+https://t.co/XQ6eyZKC2w
