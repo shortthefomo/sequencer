@@ -25,6 +25,7 @@
                 <label class="pe-2 text-light">custom node</label>
                 <input class="ms-2 bg-dark text-light" v-model="custom_input" placeholder="wss://"/>
                 <button class="btn btn-sm btn-outline-light ms-4" @click="addCustomNode()" :disabled="loaded">add node</button>
+                <p>custom_nodes: {{ custom_nodes }}</p>
             </div>
             <div class="col bg-dark">
                 <div class="transaction address mt-2"></div>
