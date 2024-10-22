@@ -152,9 +152,10 @@ html {
   background-color: white;
 }
 .transaction.faded {
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 2s, opacity 2s linear;
+  opacity: 0.9;
+//   visibility: hidden;
+//   opacity: 0;
+//   transition: visibility 0s 2s, opacity 2s linear;
 }
 
 .validated.address {
