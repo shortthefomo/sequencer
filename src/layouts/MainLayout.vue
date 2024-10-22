@@ -1,7 +1,7 @@
 <template>
-    <XummSignin @signin_complete="signinCompleted" />
+    <!-- <XummSignin @signin_complete="signinCompleted" /> -->
 
-    <div v-if="signedIn">
+    <div>
         <Nav />
 
         <main class="flex-shrink-0 mb-4">
@@ -20,24 +20,22 @@
 <script>
 import Nav from '../components/Nav.vue'
 import Refs from '../components/Refs.vue'
-import XummSignin from '../components/XummSignin.vue'
 
 export default {
     name: 'MainLayout',
     components: {
         Nav,
-        Refs,
-        XummSignin
+        Refs
     },
     data() {
         return {
             
-            signedIn: this.$store.getters.signedIn
+            signedIn: true
         }
     },
     methods: {
         signinCompleted(value) {
-            this.signedIn = this.$store.getters.signedIn
+            this.signedIn = true
         },
     },
 }

@@ -58,6 +58,78 @@ export const AppStore = {
             history: [],
             trustlines: []
         },
+        xahau3: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
+        xahau4: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
+        xahau5: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
+        xahau6: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
+        xahau7: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
+        xahau8: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
+        xahau9: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
+        xahau10: {
+            client: null,
+            nodes: [],
+            account: '',
+            books: {},
+            paths: {},
+            history: [],
+            trustlines: []
+        },
         custom: {
             client: null,
             nodes: [],

@@ -26,7 +26,7 @@
                     </router-link>
                 </div> -->
             </div> 
-            <a @click="logout" v-if="$store.getters.getSignedIn" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+            <a @click="logout" v-if="false" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
         </nav>
     </div>
 </template>
@@ -89,7 +89,7 @@ export default {
     methods: {
         logout() {
             console.log('user logged out')
-            this.$store.dispatch('clearStorage', true)
+            // this.$store.dispatch('clearStorage', true)
             this.$router.go()
         }
     }
