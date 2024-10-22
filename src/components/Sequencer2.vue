@@ -48,22 +48,9 @@ export default {
 	},
 	created() {
 		// if (this.debounced_transactions !== undefined) { return }
-		this.debounced_transactions = debounce((data, connection) => {
-            console.log('debounce', connection)
-
-			for (const [key, item] of Object.entries(data[connection])) {
-				if (item.ledger_current_index !== undefined && item.ledger_current_index >= (this.ledger_index - this.window_size)) { continue }
-				if (item.ledger_index !== undefined && item.ledger_index >= (this.ledger_index - this.window_size)) { continue }
-                const tx = data[connection][key]
-                
-                const index = data['main'].indexOf(tx.transaction.hash)
-                if (index > -1) { data['main'].splice(index, 1) }
-				delete data[connection][key]
-                
-			}
-            // console.log(data)
+		this.debounced_transactions = debounce((data) => {
 			this.debounced_tx = { ...data }
-		}, 100, { maxWait: 500 })
+		}, 100)
 	},
 	unmounted() {
 		
@@ -71,10 +58,10 @@ export default {
 			clearTimeout(this.timeout)
 		}
 
-        // for (const connection of Object.keys(this.connections)) {
-        //     if (connection.client === undefined) { continue }
-        //     connection.client.close()
-        // }
+        for (const connection of Object.keys(this.connections)) {
+            if (connection.client === undefined) { continue }
+            connection.client.close()
+        }
         this.loaded = false
 	},
 	computed: {
@@ -149,6 +136,7 @@ export default {
                     this.transactions_proposed['main'].unshift(tx.transaction.hash)
                 }
 				
+				
                 for (const [key, item] of Object.entries(this.transactions_proposed[connection])) {
                     if (item.ledger_current_index !== undefined && item.ledger_current_index >= (this.ledger_index - this.window_size)) { continue }
                     if (item.ledger_index !== undefined && item.ledger_index >= (this.ledger_index - this.window_size)) { continue }
@@ -157,26 +145,12 @@ export default {
                     const index = this.transactions_proposed['main'].indexOf(tx.transaction.hash)
                     if (index > -1) { this.transactions_proposed['main'].splice(index, 1) }
                     delete this.transactions_proposed[connection][key]
-                    
                 }
-                // this.debounced_transactions(this.transactions_proposed, connection)
+                this.debounced_transactions(this.transactions_proposed)
             }
 			this.connections[connection].client.on('transaction', callback)
 
-            // const ledger = async (tx) => {
-            //     const ledger = this.connections[connection].client
-			// 	const fee = await ledger.send({
-			// 		id: 'fee_sequencer',
-			// 		command: 'fee'
-			// 	})
-			// 	this.connections[connection].current_queue_size = fee.current_queue_size
-			// 	this.connections[connection].current_ledger_size = fee.current_ledger_size
-            // }
-            // this.connections[connection].client.on('ledger', ledger)
 		},
-        appendData() {
-
-        }
 	}
 }
 </script>
