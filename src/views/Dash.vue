@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import { XrplClient } from 'xrpl-accountlib'
 import Sequencer from '../components/Sequencer2.vue'
 
 export default {
