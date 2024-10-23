@@ -40,7 +40,7 @@ export default {
 		await this.pause()
         for (const connection of Object.keys(this.nodes)) {
             await this.loadClient(connection, this.nodes[connection].name)
-            await this.queue(connection)
+            this.queue(connection)
         }
 		
 		
