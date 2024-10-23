@@ -1,4 +1,5 @@
 <template>
+	<div v-if="!loaded" class="spinner-border" role="status"></div>
 	<div v-if="loaded" class="row row-cols-1 mt-4 mb-1" v-for="(node, index) in connections">
 		<div class="col mb-0">{{ node.name }}<br/></div>
 		
