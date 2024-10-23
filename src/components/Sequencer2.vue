@@ -16,6 +16,7 @@
 <script>
 import { debounce } from 'lodash'
 import { XrplClient } from 'xrpl-client'
+import { Client } from 'xrpl'
 
 export default {
 	name: 'Sequencer',
@@ -80,9 +81,10 @@ export default {
 		},
 		async queue(connection) {
 			const ledger = this.connections[connection].client
-			const fee = await ledger.send({
+			const fee = await ledger.request({
 				id: 'three-fee-sequencer',
-				command: 'fee'
+				command: 'fee',
+				api_version: 1
 			})
 			this.connections[connection].current_queue_size = fee.current_queue_size
 			this.connections[connection].current_ledger_size = fee.current_ledger_size
@@ -104,21 +106,22 @@ export default {
 		async loadClient(connection, name) {
             console.log('load client', connection)
             this.connections[connection] = {
-                client: new XrplClient(connection),
+                client: new Client(connection, { connectionTimeout: 60_000 }),
                 name: name,
                 current_queue_size: 0,
                 current_ledger_size: 0,
                 ledger_index: 0,
 				peers: 0
             }
-			await this.connections[connection].client.ready()
+			await this.connections[connection].client.connect()
             this.transactions_proposed[connection] = {}
             if (this.transactions_proposed['main'] == undefined) { this.transactions_proposed['main'] = [] }
 
-            await this.connections[connection].client.send({
+            await this.connections[connection].client.request({
 				id: 'sequencer-' + name,
 				command: 'subscribe',
-				streams: ['ledger', 'transactions', 'transactions_proposed']
+				streams: ['ledger', 'transactions', 'transactions_proposed'],
+				api_version: 1
 			})
 			
 			const hhhmmmm = async () => {
@@ -161,7 +164,7 @@ export default {
 			this.connections[connection].client.on('transaction', callback)
 			
 			const ledger = async (tx) => {
-				const server_info = await this.connections[connection].client.send({'id': 'three-server-fee', 'command': 'server_info'})
+				const server_info = await this.connections[connection].client.request({ id: 'three-server-fee', command: 'server_info', api_version: 1 })
 				this.connections[connection].peers = (server_info.info?.peers === undefined) ? '-' : server_info.info?.peers
 				// console.log('server_info', server_info)
 			}
