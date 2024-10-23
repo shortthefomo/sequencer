@@ -48,10 +48,9 @@ export default {
 		this.loaded = true
 	},
 	created() {
-		// if (this.debounced_transactions !== undefined) { return }
 		this.debounced_transactions = debounce((data) => {
 			this.debounced_tx = { ...data }
-		}, 100)
+		}, 200)
 	},
 	unmounted() {
 		
