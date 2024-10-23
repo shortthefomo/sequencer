@@ -103,7 +103,11 @@ export default {
 		async loadClient(connection, name) {
             console.log('load client', connection)
             this.connections[connection] = {
-                client: new XrplClient([connection]),
+                client: new XrplClient([connection],{
+					assumeOfflineAfterSeconds: 15,
+					maxConnectionAttempts: 4,
+					connectAttemptTimeoutSeconds: 4,
+				}),
                 name: name,
                 current_queue_size: 0,
                 current_ledger_size: 0,
