@@ -155,7 +155,7 @@ export default {
 			const ledger = async (tx) => {
 				const server_info = await this.connections[connection].client.send({'id': 'get-server-fee', 'command': 'server_info'})
 				this.connections[connection].peers = (server_info.info?.peers === undefined) ? '-' : server_info.info?.peers
-				console.log('server_info', server_info)
+				// console.log('server_info', server_info)
 			}
 
 			this.connections[connection].client.on('ledger', ledger)
