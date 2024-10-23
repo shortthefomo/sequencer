@@ -40,7 +40,7 @@ export default {
 		await this.pause()
         for (const connection of Object.keys(this.nodes)) {
             await this.loadClient(connection, this.nodes[connection].name)
-            this.queue(connection)
+            await this.queue(connection)
         }
 		
 		
@@ -78,18 +78,16 @@ export default {
 				setTimeout(resolve, milliseconds)
 			})
 		},
-		queue(connection) {
-            const self = this
-			this.timeout = setTimeout(async () => {
-				const ledger = self.connections[connection].client
-				const fee = await ledger.send({
-					id: 'three-fee-sequencer',
-					command: 'fee'
-				})
-				self.connections[connection].current_queue_size = fee.current_queue_size
-				self.connections[connection].current_ledger_size = fee.current_ledger_size
-				self.queue(connection)
-			}, 400)
+		async queue(connection) {
+			const ledger = this.connections[connection].client
+			const fee = await ledger.send({
+				id: 'three-fee-sequencer',
+				command: 'fee'
+			})
+			this.connections[connection].current_queue_size = fee.current_queue_size
+			this.connections[connection].current_ledger_size = fee.current_ledger_size
+			this.pause(400)
+			await this.queue(connection)
 		},
 		addClasses(node, hash) {
             const tx = this.transactions_proposed[node][hash]
