@@ -114,7 +114,13 @@ export default {
                 ledger_index: 0,
 				peers: 0
             }
-			await this.connections[connection].client.connect()
+			try {
+				await this.connections[connection].client.connect()	
+			} catch (error) {
+				await this.pause()
+				this.loadClient(connection, name)
+			}
+			
             this.transactions_proposed[connection] = {}
             if (this.transactions_proposed['main'] == undefined) { this.transactions_proposed['main'] = [] }
 
