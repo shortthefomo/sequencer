@@ -99,17 +99,17 @@ export default {
 
             if (this.ledger === 'xahau') {
                 // this.nodes['ws://213.136.72.131:6008'] = {
-                //     name: 'random name'
+                //     name: 'random node'
                 // }
-                this.nodes['wss://rpc.offledger.net'] = {
-                    name: 'offledger.net'
-                }
+                // this.nodes['wss://rpc.offledger.net'] = {
+                //     name: 'offledger.net'
+                // }
                 this.nodes[import.meta.env.VITE_APP_XAH_LOCAL_WSS] = {
                     name: 'panicbot.app'
                 }
-                this.nodes[import.meta.env.VITE_APP_XAH_WSS] = {
-                    name: 'xahau.network'
-                }
+                // this.nodes[import.meta.env.VITE_APP_XAH_WSS] = {
+                //     name: 'xahau.network'
+                // }
             }
             if (this.ledger === 'xrpl') {
                 this.nodes[import.meta.env.VITE_APP_XRPL_LOCAL_WSS] = {

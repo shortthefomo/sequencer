@@ -121,15 +121,10 @@ export default {
 				streams: ['ledger', 'transactions', 'transactions_proposed']
 			})
 			
-			const hhhmmmm = async (event) => {
-				console.log('hhhmmmm', event)
+			const hhhmmmm = async () => {
+				console.log('upstream connection closed', name)
 			}
 			this.connections[connection].client.on('close', hhhmmmm)
-			
-			const retry = async (event) => {
-				console.log('hhhmmmm retry', event)
-			}
-			this.connections[connection].client.on('retry', retry)
 
             const callback = async (tx) => {
                 if (tx.ledger_index > this.ledger_index) {
