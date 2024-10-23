@@ -74,7 +74,7 @@ export default {
 	methods: {
 		async pause(milliseconds = 1000) {
 			return new Promise(resolve => {
-				console.log('pausing....')
+				//console.log('pausing....')
 				setTimeout(resolve, milliseconds)
 			})
 		},
@@ -86,7 +86,7 @@ export default {
 			})
 			this.connections[connection].current_queue_size = fee.current_queue_size
 			this.connections[connection].current_ledger_size = fee.current_ledger_size
-			this.pause(400)
+			await this.pause(400)
 			await this.queue(connection)
 		},
 		addClasses(node, hash) {
