@@ -20,6 +20,7 @@
         "bootstrap-icons": "^1.11.3",
         "debounce": "^2.1.1",
         "events": "^3.3.0",
+        "https-proxy-agent": "^7.0.5",
         "lodash": "^4.17.21",
         "vite-plugin-node-polyfills": "^0.22.0",
         "vue": "^3.4.36",

@@ -1,15 +1,15 @@
 <template>
-	<div v-if="loaded" class="row mt-4 mb-1" v-for="(node, index) in connections">
-		<p class="col-1 mb-0">{{ node.name }}<br/></p>
+	<div v-if="loaded" class="row row-cols-1 mt-4 mb-1" v-for="(node, index) in connections">
+		<div class="col mb-0">{{ node.name }}<br/></div>
 		
-		<div class="col-11 mb-0">
+		<div class="col mb-0">
 			<div class="mb-2" v-if="transactions_proposed !== undefined && transactions_proposed['main'] !== undefined">
 				<div v-for="(hash) in transactions_proposed['main']">
 					<div :class="addClasses(index, hash)"></div>
 				</div>
 			</div>
 		</div>
-		<div class="row"><div class="col"><span class="opacity-25">{{ node.ledger_index }}, ledgers: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</span></div></div>
+		<div class="col-12"><span class="opacity-25">{{ node.ledger_index }}, ledgers: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</span></div>
 	</div>
 </template>
 
@@ -120,7 +120,17 @@ export default {
 				command: 'subscribe',
 				streams: ['ledger', 'transactions', 'transactions_proposed']
 			})
-        
+			
+			const hhhmmmm = async (event) => {
+				console.log('hhhmmmm', event)
+			}
+			this.connections[connection].client.on('close', hhhmmmm)
+			
+			const retry = async (event) => {
+				console.log('hhhmmmm retry', event)
+			}
+			this.connections[connection].client.on('retry', retry)
+
             const callback = async (tx) => {
                 if (tx.ledger_index > this.ledger_index) {
 					this.ledger_index = tx.ledger_index
