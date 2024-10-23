@@ -114,12 +114,8 @@ export default {
 			await this.connections[connection].client.ready()
             this.transactions_proposed[connection] = {}
             if (this.transactions_proposed['main'] == undefined) { this.transactions_proposed['main'] = [] }
-			console.log({
-				id: 'sequencer-' + name,
-				command: 'subscribe',
-				streams: ['ledger', 'transactions', 'transactions_proposed']
-			})
-            const subscribe = await this.connections[connection].client.send({
+
+            await this.connections[connection].client.send({
 				id: 'sequencer-' + name,
 				command: 'subscribe',
 				streams: ['ledger', 'transactions', 'transactions_proposed']
