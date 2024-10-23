@@ -1,5 +1,5 @@
 <template>
-	<div class="row mt-4 mb-4" v-for="(node, index) in connections">
+	<div v-if="loaded" class="row mt-4 mb-4" v-for="(node, index) in connections">
 		<p class="col-1">{{ node.name }}<br/></p>
 		
 		<div class="col-11">
@@ -8,8 +8,8 @@
 					<div :class="addClasses(index, hash)"></div>
 				</div>
 			</div>
-			<div class="row"><span class="opacity-25">{{ node.ledger_index }}, ledgers: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</span></div>
 		</div>
+		<div class="row"><div class="col"><span class="opacity-25">{{ node.ledger_index }}, ledgers: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</span></div></div>
 	</div>
 </template>
 
@@ -39,7 +39,7 @@ export default {
 	async mounted() {
 		await this.pause()
         for (const connection of Object.keys(this.nodes)) {
-            this.loadClient(connection, this.nodes[connection].name)
+            await this.loadClient(connection, this.nodes[connection].name)
             this.queue(connection)
         }
 		
@@ -61,6 +61,8 @@ export default {
         for (const connection of Object.keys(this.connections)) {
             if (connection.client === undefined) { continue }
             connection.client.close()
+			connection.client = null
+			console.log('Closing connection to WebSocket Server')
         }
         this.loaded = false
 	},
@@ -81,7 +83,7 @@ export default {
 			this.timeout = setTimeout(async () => {
 				const ledger = self.connections[connection].client
 				const fee = await ledger.send({
-					id: 'fee_sequencer',
+					id: 'three-fee-sequencer',
 					command: 'fee'
 				})
 				self.connections[connection].current_queue_size = fee.current_queue_size
@@ -92,6 +94,7 @@ export default {
 		addClasses(node, hash) {
             const tx = this.transactions_proposed[node][hash]
 			let classes = 'transaction'
+			if (!this.loaded) { return classes }
             if (tx === undefined) { return classes }
             if (tx.transaction === undefined) { return classes }
 			if (tx.validated) { classes += ' validated' }
@@ -103,21 +106,23 @@ export default {
 		async loadClient(connection, name) {
             console.log('load client', connection)
             this.connections[connection] = {
-                client: new XrplClient([connection],{
-					assumeOfflineAfterSeconds: 15,
-					maxConnectionAttempts: 4,
-					connectAttemptTimeoutSeconds: 4,
-				}),
+                client: new XrplClient(connection),
                 name: name,
                 current_queue_size: 0,
                 current_ledger_size: 0,
                 ledger_index: 0,
 				peers: 0
             }
+			await this.connections[connection].client.ready()
             this.transactions_proposed[connection] = {}
             if (this.transactions_proposed['main'] == undefined) { this.transactions_proposed['main'] = [] }
+			console.log({
+				id: 'sequencer-' + name,
+				command: 'subscribe',
+				streams: ['ledger', 'transactions', 'transactions_proposed']
+			})
             const subscribe = await this.connections[connection].client.send({
-				id: 'sequencer-' + connection.name,
+				id: 'sequencer-' + name,
 				command: 'subscribe',
 				streams: ['ledger', 'transactions', 'transactions_proposed']
 			})
@@ -157,7 +162,7 @@ export default {
 			this.connections[connection].client.on('transaction', callback)
 			
 			const ledger = async (tx) => {
-				const server_info = await this.connections[connection].client.send({'id': 'get-server-fee', 'command': 'server_info'})
+				const server_info = await this.connections[connection].client.send({'id': 'three-server-fee', 'command': 'server_info'})
 				this.connections[connection].peers = (server_info.info?.peers === undefined) ? '-' : server_info.info?.peers
 				// console.log('server_info', server_info)
 			}
@@ -168,5 +173,3 @@ export default {
 }
 </script>
 <style lang="scss" scoped></style>
-
-https://t.co/XQ6eyZKC2w
