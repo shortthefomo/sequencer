@@ -20,8 +20,8 @@
                 <small class="ps-2">Transaction that has been added to the ledger.</small>
             </div>
         </div>
-        <div v-if="!loaded" class="row mb-4 ms-0">
-            <div class="col mt-4">
+        <div class="row mb-4 ms-0">
+            <div v-if="!loaded" class="col mt-4">
                 <label class="pe-2 text-light">custom node</label>
                 <input class="ms-2 bg-dark text-light" v-model="custom_input" placeholder="wss://"/>
                 <button class="btn btn-sm btn-outline-light ms-4" @click="addCustomNode()" :disabled="loaded">add node</button>
@@ -141,7 +141,7 @@ html {
 }
 
 .transaction {
-  width: 3px;
+  width: 4px;
   height: 10px;;
   border: solid 1px white;
   float: left;
@@ -154,6 +154,7 @@ html {
 }
 .address {
   background-color: white;
+  border: solid 1px orange;
 }
 .transaction.faded {
   opacity: 0.8;
