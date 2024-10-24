@@ -142,7 +142,7 @@ html {
 }
 
 .transaction {
-  width: 4px;
+  width: 3px;
   height: 10px;;
   border: solid 1px white;
   float: left;
