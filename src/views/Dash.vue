@@ -27,6 +27,7 @@
                 <button class="btn btn-sm btn-outline-light ms-4" @click="addCustomNode()" :disabled="loaded">add node</button>
                 <p>custom_nodes: {{ custom_nodes }}</p>
             </div>
+            <div v-else class="col mt-4"></div>
             <div class="col bg-dark">
                 <div class="transaction address mt-2"></div>
                 <small class="ps-2">Proposed transaction by monitored address.</small>
