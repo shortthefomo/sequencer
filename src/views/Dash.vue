@@ -149,6 +149,7 @@ html {
   margin-left: 1px;
 }
 .validated {
+  transition: border-color 2s ease;
   border: solid 1px #00e56a;
 }
 .address {
@@ -164,6 +165,7 @@ html {
 .validated.address {
   background-color: orange;
   border: solid 1px orange;
+  transition: background-color 0.5s ease;
 }
 
 .btn-outline-pink {
