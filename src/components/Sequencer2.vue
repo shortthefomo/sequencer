@@ -10,7 +10,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12"><span class="opacity-25">{{ node.ledger_index }}, ledgers: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</span></div>
+		<div class="col-12"><span class="opacity-25">{{ node.ledger_index }}, txs: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</span></div>
 	</div>
 </template>
 
