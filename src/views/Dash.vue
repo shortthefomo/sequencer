@@ -104,6 +104,9 @@ export default {
                 this.nodes['wss://rpc.offledger.net'] = {
                     name: 'offledger.net'
                 }
+                this.nodes['ws://194.163.172.90:6008'] = {
+                    name: 'xrplwin'
+                }
                 this.nodes[import.meta.env.VITE_APP_XAH_LOCAL_WSS] = {
                     name: 'panicbot.app'
                 }
@@ -160,6 +163,7 @@ html {
 
 .validated.address {
   background-color: orange;
+  border: solid 1px orange;
 }
 
 .btn-outline-pink {
