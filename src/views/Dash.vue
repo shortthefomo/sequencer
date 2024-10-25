@@ -76,7 +76,7 @@ export default {
             address: undefined,
             loaded: false,
             lastupdate: {},
-            ledger: 'xrpl',
+            ledger: 'xrpl-testnet',
             networks: [
                 { text: 'xrpl', value: 'xrpl' },
                 { text: 'xahau', value: 'xahau' },
