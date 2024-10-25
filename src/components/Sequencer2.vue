@@ -98,8 +98,8 @@ export default {
 			classes += ' found'
 			if (tx.validated) { classes += ' validated' }
 			if (tx.transaction.Account === this.address) { classes += ' address' }
-			if (tx.ledger_current_index !== undefined && (this.ledger_index - tx.ledger_current_index > 3) ) { classes += ' faded' }
-			if (tx.ledger_index !== undefined && (this.ledger_index - tx.ledger_index > 3)) { classes += ' faded' }
+			// if (tx.ledger_current_index !== undefined && (this.ledger_index - tx.ledger_current_index > 3) ) { classes += ' faded' }
+			// if (tx.ledger_index !== undefined && (this.ledger_index - tx.ledger_index > 3)) { classes += ' faded' }
 			return classes
 		},
 		async loadClient(connection, name) {
@@ -128,12 +128,12 @@ export default {
 			this.connections[connection].client.on('close', hhhmmmm)
 
             const callback = async (tx) => {
-                if (tx.ledger_index > this.ledger_index) {
-					this.ledger_index = tx.ledger_index
-				}
-                if (tx.ledger_index > this.connections[connection].ledger_index) {
-                    this.connections[connection].ledger_index = tx.ledger_index
-                }
+                // if (tx.ledger_index > this.ledger_index) {
+				// 	this.ledger_index = tx.ledger_index
+				// }
+                // if (tx.ledger_index > this.connections[connection].ledger_index) {
+                //     this.connections[connection].ledger_index = tx.ledger_index
+                // }
                 
 				this.transactions_proposed[connection][tx.transaction.hash] = tx
                 let found = false
@@ -149,8 +149,8 @@ export default {
 				
 				
                 for (const [key, item] of Object.entries(this.transactions_proposed[connection])) {
-                    if (item.ledger_current_index !== undefined && item.ledger_current_index >= (this.ledger_index - this.window_size)) { continue }
-                    if (item.ledger_index !== undefined && item.ledger_index >= (this.ledger_index - this.window_size)) { continue }
+                    if (item.ledger_current_index !== undefined && item.ledger_current_index >= (this.connections[connection].ledger_index - this.window_size)) { continue }
+                    if (item.ledger_index !== undefined && item.ledger_index >= (this.connections[connection].ledger_index - this.window_size)) { continue }
                     const tx = this.transactions_proposed[connection][key]
                     
                     const index = this.transactions_proposed['main'].indexOf(tx.transaction.hash)
@@ -162,6 +162,7 @@ export default {
 			this.connections[connection].client.on('transaction', callback)
 			
 			const ledger = async (tx) => {
+				this.connections[connection].ledger_index = tx.ledger_index
 				const server_info = await this.connections[connection].client.send({'id': 'three-server-fee', 'command': 'server_info'})
 				this.connections[connection].peers = (server_info.info?.peers === undefined) ? '-' : server_info.info?.peers
 				// console.log('server_info', server_info)
