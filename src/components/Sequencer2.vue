@@ -100,7 +100,7 @@ export default {
 			if (tx.validated) { classes += ' validated' }
 			if (tx.transaction.Account === this.address) { classes += ' address' }
 			// if (tx.ledger_current_index !== undefined && (this.connections[connection].ledger_index) > (tx.ledger_current_index +  (10))) { classes += ' faded' }
-			if (tx.ledger_index !== undefined && (this.connections[connection].ledger_index) > (tx.ledger_index +  (this.window_size - 1))) { classes += ' faded' }
+			// if (tx.ledger_index !== undefined && (this.connections[connection].ledger_index) > (tx.ledger_index +  (this.window_size - 1))) { classes += ' faded' }
 			return classes
 		},
 		async loadClient(connection, name) {
