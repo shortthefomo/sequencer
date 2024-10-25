@@ -16,17 +16,21 @@
                 <small class="ps-2">Proposed transaction awaiting addition to the ledger.</small>
             </div>
             <div class="col bg-dark">
-                <div class="transaction validated mt-2"></div>
+                <div class="transaction found validated mt-2"></div>
                 <small class="ps-2">Transaction that has been added to the ledger.</small>
             </div>
         </div>
         <div class="row mb-4 ms-0">
             <div class="col bg-dark">
                 <div class="transaction address mt-2"></div>
+                <small class="ps-2">Transaction not recived by node of monitored address.</small>
+            </div>
+            <div class="col bg-dark">
+                <div class="transaction found address mt-2"></div>
                 <small class="ps-2">Proposed transaction by monitored address.</small>
             </div>
             <div class="col bg-dark">
-                <div class="transaction validated address mt-2"></div>
+                <div class="transaction found validated address mt-2"></div>
                 <small class="ps-2">Validated transaction by monitored address.</small>
             </div>
             <div class="col bg-dark"></div>
