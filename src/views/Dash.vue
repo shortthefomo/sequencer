@@ -80,6 +80,11 @@ export default {
             networks: [
                 { text: 'xrpl', value: 'xrpl' },
                 { text: 'xahau', value: 'xahau' },
+                { text: 'xrpl-testnet', value: 'xrpl-testnet' },
+                { text: 'xrpl-devnet', value: 'xrpl-devnet' },
+                { text: 'xrpl-sidechain', value: 'xrpl-sidechain' },
+                { text: 'xahau-testnet', value: 'xahau-testnet' },
+
             ],
             custom_network: 'xrpl',
             nodes: {}
@@ -139,6 +144,39 @@ export default {
                 }
                 this.nodes[import.meta.env.VITE_APP_XRPL_WSS] = {
                     name: 'xrpl.cluster'
+                }
+            }
+
+            if (this.ledger === 'xrpl-testnet') {
+                this.nodes['wss://s.altnet.rippletest.net:51233/'] = {
+                    name: 'altnet.rippletest'
+                }
+                this.nodes['wss://testnet.xrpl-labs.com/'] = {
+                    name: 'testnet.xrpl-labs'
+                }
+                this.nodes['wss://clio.altnet.rippletest.net:51233/'] = {
+                    name: 'clio.altnet'
+                }
+            }
+
+            if (this.ledger === 'xrpl-devnet') {
+                this.nodes['wss://s.devnet.rippletest.net:51233/'] = {
+                    name: 'devnet.rippletest'
+                }
+                this.nodes['wss://clio.devnet.rippletest.net:51233/'] = {
+                    name: 'clio.devnet'
+                }
+            }
+
+            if (this.ledger === 'xrpl-sidechain') {
+                this.nodes['wss://sidechain-net2.devnet.rippletest.net:51233/'] = {
+                    name: 'sidechain-net2'
+                }
+            }
+
+            if (this.ledger === 'xahau-testnet') {
+                this.nodes['wss://xahau-test.net/'] = {
+                    name: 'xahau-test'
                 }
             }
             
