@@ -8,11 +8,19 @@
         </div>
         <div class="row mb-0 ms-0">
             <div class="col">
+            </div>
+            <div class="col bg-dark">
+                <div class="transaction mt-2"></div>
+                <small class="ps-2">Transaction not recived by node.</small>
+            </div>
+            <div class="col bg-dark">
+            </div>
+            <div class="col">
                 <label class="pe-2 text-light">monitor</label>
                 <input class="mt-2" v-model="address" placeholder="rAddress"/>
             </div>
             <div class="col bg-dark">
-                <div class="transaction mt-2"></div>
+                <div class="transaction found mt-2"></div>
                 <small class="ps-2">Proposed transaction awaiting addition to the ledger.</small>
             </div>
             <div class="col bg-dark">
