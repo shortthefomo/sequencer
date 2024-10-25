@@ -33,7 +33,6 @@
                 <div class="transaction found validated address mt-2"></div>
                 <small class="ps-2">Validated transaction by monitored address.</small>
             </div>
-            <div class="col bg-dark"></div>
         </div>
         <div class="row mb-0 ms-0">
             <div v-if="!loaded" class="col">
