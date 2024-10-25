@@ -9,7 +9,7 @@ export default defineConfig({
     https: false,
     strictPort: true,
     port: 5179,
-    hmr: false,
+    hmr: true,
   },
   plugins: [
     mkcert(),

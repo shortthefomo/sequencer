@@ -154,7 +154,14 @@ html {
   float: left;
   margin-top: 1px;
   margin-left: 1px;
+//   transition: opacity 0.3s;
+  opacity: 0.5;
 }
+.found {
+    // transition: opacity 0.3s;  
+    opacity: 1;
+}
+
 .validated {
 //   transition: border-color 2s ease;
   border: solid 1px #00e56a;
