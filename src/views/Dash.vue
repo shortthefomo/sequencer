@@ -130,9 +130,9 @@ export default {
                 }
             }
             if (this.ledger === 'xrpl') {
-                this.nodes[import.meta.env.VITE_APP_XRPL_DAZZLING_WS] = {
-                    name: 'dazzling'
-                }
+                // this.nodes[import.meta.env.VITE_APP_XRPL_DAZZLING_WS] = {
+                //     name: 'dazzling'
+                // }
                 this.nodes[import.meta.env.VITE_APP_XRPL_KUWAIT_WS] = {
                     name: 'kuwait'
                 }
