@@ -40,7 +40,7 @@ export default {
 	async mounted() {
 		await this.pause()
         for (const connection of Object.keys(this.nodes)) {
-            await this.loadClient(connection, this.nodes[connection].name)
+            this.loadClient(connection, this.nodes[connection].name)
             this.queue(connection)
         }
 		
