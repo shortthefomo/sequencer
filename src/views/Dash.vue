@@ -119,9 +119,9 @@ export default {
                 this.nodes['wss://rpc.offledger.net'] = {
                     name: 'offledger.net'
                 }
-                this.nodes['ws://194.163.172.90:6008'] = {
-                    name: 'xrplwin'
-                }
+                // this.nodes['ws://194.163.172.90:6008'] = {
+                //     name: 'xrplwin'
+                // }
                 this.nodes[import.meta.env.VITE_APP_XAH_LOCAL_WSS] = {
                     name: 'panicbot.app'
                 }
@@ -218,10 +218,10 @@ html {
   border: solid 1px orange;
 }
 .transaction.faded {
-  opacity: 0.8;
-//   visibility: hidden;
-//   opacity: 0;
-//   transition: visibility 0s 2s, opacity 2s linear;
+//   opacity: 0.8;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.3s, opacity 0.3s linear;
 }
 
 .validated.address {

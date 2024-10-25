@@ -1,7 +1,7 @@
 <template>
 	<div v-if="!loaded" class="spinner-border" role="status"></div>
 	<div v-if="loaded" class="row row-cols-1 mt-4 mb-1" v-for="(node, index) in connections">
-		<div class="col mb-0">{{ node.name }}<br/></div>
+		<div class="col mb-0"><span class="opacity-25">{{ node.ledger_index }}</span> {{ node.name }}</div>
 		
 		<div class="col mb-0">
 			<div class="mb-2" v-if="debounced_tx !== undefined && debounced_tx['main'] !== undefined">
@@ -10,7 +10,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12"><span class="opacity-25">{{ node.ledger_index }}, txs: {{ node.current_ledger_size }}, peers: {{node.peers}}, queue: {{ node.current_queue_size }}</span></div>
+		<div class="col-12"></div>
 	</div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
 		await this.pause()
         for (const connection of Object.keys(this.nodes)) {
             this.loadClient(connection, this.nodes[connection].name)
-            this.queue(connection)
+            //this.queue(connection)
         }
 		
 		
@@ -89,17 +89,18 @@ export default {
 			await this.pause(400)
 			await this.queue(connection)
 		},
-		addClasses(node, hash) {
-            const tx = this.transactions_proposed[node][hash]
+		addClasses(connection, hash) {
 			let classes = 'transaction'
+			if (this.transactions_proposed[connection] === undefined) { return classes }
+			const tx = this.transactions_proposed[connection][hash]
 			if (!this.loaded) { return classes }
             if (tx === undefined) { return classes }
             if (tx.transaction === undefined) { return classes }
 			classes += ' found'
 			if (tx.validated) { classes += ' validated' }
 			if (tx.transaction.Account === this.address) { classes += ' address' }
-			// if (tx.ledger_current_index !== undefined && (this.ledger_index - tx.ledger_current_index > 3) ) { classes += ' faded' }
-			// if (tx.ledger_index !== undefined && (this.ledger_index - tx.ledger_index > 3)) { classes += ' faded' }
+			// if (tx.ledger_current_index !== undefined && (this.connections[connection].ledger_index) > (tx.ledger_current_index +  (10))) { classes += ' faded' }
+			if (tx.ledger_index !== undefined && (this.connections[connection].ledger_index) > (tx.ledger_index +  (this.window_size - 1))) { classes += ' faded' }
 			return classes
 		},
 		async loadClient(connection, name) {
@@ -128,13 +129,6 @@ export default {
 			this.connections[connection].client.on('close', hhhmmmm)
 
             const callback = async (tx) => {
-                // if (tx.ledger_index > this.ledger_index) {
-				// 	this.ledger_index = tx.ledger_index
-				// }
-                // if (tx.ledger_index > this.connections[connection].ledger_index) {
-                //     this.connections[connection].ledger_index = tx.ledger_index
-                // }
-                
 				this.transactions_proposed[connection][tx.transaction.hash] = tx
                 let found = false
                 for (let index = 0; index < this.transactions_proposed['main'].length; index++) {
@@ -162,9 +156,12 @@ export default {
 			this.connections[connection].client.on('transaction', callback)
 			
 			const ledger = async (tx) => {
+				// console.log(tx)
 				this.connections[connection].ledger_index = tx.ledger_index
-				const server_info = await this.connections[connection].client.send({'id': 'three-server-fee', 'command': 'server_info'})
-				this.connections[connection].peers = (server_info.info?.peers === undefined) ? '-' : server_info.info?.peers
+				this.connections[connection].current_ledger_size = tx.txn_count
+				// const server_info = await this.connections[connection].client.send({'id': 'three-server-fee', 'command': 'server_info'})
+				// this.connections[connection].peers = (server_info.info?.peers === undefined) ? '-' : server_info.info?.peers
+
 				// console.log('server_info', server_info)
 			}
 
