@@ -7,7 +7,6 @@
             </div>
         </div>
         <div class="row mb-0 ms-0 mt-4">
-            <div class="col bg-dark"></div>
             <div class="col bg-dark">
                 <div class="transaction mt-2"></div>
                 <small class="ps-2">Transaction not recived by node.</small>
@@ -22,7 +21,6 @@
             </div>
         </div>
         <div class="row mb-4 ms-0">
-            
             <div class="col bg-dark">
                 <div class="transaction address mt-2"></div>
                 <small class="ps-2">Proposed transaction by monitored address.</small>
@@ -38,13 +36,12 @@
                 <label class="pe-2 text-light">monitor</label>
                 <input class="mt-2" v-model="address" placeholder="rAddress"/>
             </div>
-            <div v-if="!loaded" class="col mt-4">
+            <div v-if="!loaded" class="col">
                 <label class="pe-2 text-light">custom node</label>
                 <input class="ms-2 bg-dark text-light" v-model="custom_input" placeholder="wss://"/>
                 <button class="btn btn-sm btn-outline-light ms-4" @click="addCustomNode()" :disabled="loaded">add node</button>
                 <p>custom_nodes: {{ custom_nodes }}</p>
             </div>
-            <div class="col"></div>
         </div>
         <div class="row mt-4 mb-4"><div class="col"></div></div>
         <div class="row mt-4 mb-4"><div class="col"></div></div>
