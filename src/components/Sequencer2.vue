@@ -4,8 +4,8 @@
 		<div class="col mb-0">{{ node.name }}<br/></div>
 		
 		<div class="col mb-0">
-			<div class="mb-2" v-if="transactions_proposed !== undefined && transactions_proposed['main'] !== undefined">
-				<div v-for="(hash) in transactions_proposed['main']">
+			<div class="mb-2" v-if="debounced_tx !== undefined && debounced_tx['main'] !== undefined">
+				<div v-for="(hash) in debounced_tx['main']">
 					<div :class="addClasses(index, hash)"></div>
 				</div>
 			</div>
