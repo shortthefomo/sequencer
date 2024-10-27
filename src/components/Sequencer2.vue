@@ -98,7 +98,7 @@ export default {
             if (tx.transaction === undefined) { return classes }
 			classes += ' found'
 			if (tx.validated) { classes += ' validated' }
-			if (this.address === '') { return classes }
+			if (this.address === '' || this.address !== undefined) { return classes }
 			if (tx.transaction.Account === this.address) { classes += ' address' }
 			//if (tx.transaction.Destination === this.address) { classes += ' address' }
 			
