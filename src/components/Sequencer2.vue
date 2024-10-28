@@ -96,13 +96,14 @@ export default {
 			if (!this.loaded) { return classes }
             if (tx === undefined) { return classes }
             if (tx.transaction === undefined) { return classes }
+
+			if (this.addresses.length !== 0) {
+				if (this.addresses.includes(tx.transaction.Account)) { classes += ' address' }
+				if (this.addresses.includes(tx.transaction.Destination)) { classes += ' address' }
+			}
+
 			classes += ' found'
 			if (tx.validated) { classes += ' validated' }
-			if (this.addresses.length === 0 || this.addresses === undefined) { return classes }
-			if (this.addresses.includes(tx.transaction.Account)) { classes += ' address' }
-			if (this.addresses.includes(tx.transaction.Destination)) { classes += ' address' }
-			// if (tx.ledger_current_index !== undefined && (this.connections[connection].ledger_index) > (tx.ledger_current_index +  (10))) { classes += ' faded' }
-			// if (tx.ledger_index !== undefined && (this.connections[connection].ledger_index) > (tx.ledger_index +  (this.window_size - 1))) { classes += ' faded' }
 			return classes
 		},
 		async loadClient(connection, name) {
