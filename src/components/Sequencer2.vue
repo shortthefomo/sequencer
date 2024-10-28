@@ -20,7 +20,7 @@ import { XrplClient } from 'xrpl-client'
 
 export default {
 	name: 'Sequencer',
-	props: ['address', 'nodes'],
+	props: ['addresses', 'nodes'],
 	emits: [],
 	data() {
 		return {
@@ -98,9 +98,9 @@ export default {
             if (tx.transaction === undefined) { return classes }
 			classes += ' found'
 			if (tx.validated) { classes += ' validated' }
-			if (this.address === '' || this.address === undefined) { return classes }
-			if (tx.transaction.Account === this.address) { classes += ' address' }
-			if (tx.transaction.Destination === this.address) { classes += ' address' }
+			if (this.addresses.length === 0 || this.addresses === undefined) { return classes }
+			if (this.addresses.includes(tx.transaction.Account)) { classes += ' address' }
+			if (this.addresses.includes(tx.transaction.Destination)) { classes += ' address' }
 			// if (tx.ledger_current_index !== undefined && (this.connections[connection].ledger_index) > (tx.ledger_current_index +  (10))) { classes += ' faded' }
 			// if (tx.ledger_index !== undefined && (this.connections[connection].ledger_index) > (tx.ledger_index +  (this.window_size - 1))) { classes += ' faded' }
 			return classes

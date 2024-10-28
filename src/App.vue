@@ -86,10 +86,10 @@ export default {
     }
 
     :root {
-        --header-height: 3rem;
+        /* --header-height: 3rem;
         --header-height-neg:  -3rem;
         --nav-width: 68px;
-        --nav-width-neg: -68px;
+        --nav-width-neg: -68px; */
         --first-color: #000000;
         --menu-bar-color: #8b888f;
         --first-color-light: #AFA5D9;

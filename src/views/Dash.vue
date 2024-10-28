@@ -44,6 +44,9 @@
             <div class="col">
                 <label class="pe-2 text-light">monitor</label>
                 <input class="mt-2" v-model="address" placeholder="rAddress"/>
+                <button class="btn btn-sm btn-outline-light ms-4" @click="addMonitor()">watch</button>
+                <button class="btn btn-sm btn-outline-light ms-4" @click="clearMonitor()">clear</button>
+                <p>watched: {{ addresses }}</p>
             </div>
         </div>
         <div class="row mt-4 mb-4"><div class="col"></div></div>
@@ -56,7 +59,7 @@
             </select>
             <button class="btn btn-sm btn-outline-light ms-4" @click="monitorTransactionStream()">monitor network</button>
         </div>
-        <Sequencer v-if="loaded" :address="address" :nodes="nodes" />
+        <Sequencer v-if="loaded" :addresses="addresses" :nodes="nodes" />
     </div>
 </template>
 
@@ -74,6 +77,7 @@ export default {
             custom_nodes: [],
             custom_loaded: false,
             address: undefined,
+            addresses: [],
             loaded: false,
             lastupdate: {},
             ledger: 'xrpl-testnet',
@@ -100,6 +104,13 @@ export default {
         
     },
     methods: {
+        addMonitor() {
+            this.addresses.push(this.address)
+            this.address = undefined
+        },
+        clearMonitor() {
+            this.addresses = []
+        },
         async addCustomNode() {
             this.custom_nodes.push(this.custom_input)
             this.custom_input = undefined
