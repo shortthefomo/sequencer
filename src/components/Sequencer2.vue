@@ -118,7 +118,7 @@ export default {
             }
 			await this.connections[connection].client.ready()
 			const server_info = await this.connections[connection].client.send({'id': 'three-server-info', 'command': 'server_info'})
-			console.log('server_info', server_info)
+			console.log('server_info', connection, server_info)
             this.transactions_proposed[connection] = {}
             if (this.transactions_proposed['main'] == undefined) { this.transactions_proposed['main'] = [] }
 
