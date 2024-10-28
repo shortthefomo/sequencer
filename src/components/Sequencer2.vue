@@ -107,7 +107,7 @@ export default {
 			return classes
 		},
 		async loadClient(connection, name) {
-            console.log('load client', connection)
+            console.log('load client', this.nodes[connection].name)
             this.connections[connection] = {
                 client: new XrplClient(connection),
                 name: name,
