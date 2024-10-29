@@ -1,7 +1,7 @@
 <template>
 	<div v-if="!loaded" class="spinner-border" role="status"></div>
 	<div v-if="loaded" class="row row-cols-1 mt-4 mb-1" v-for="(node, index) in connections">
-		<div class="col mb-0"><span class="opacity-25">{{ node.ledger_index }}</span> {{ node.name }}</div>
+		<div class="col mb-0"><span class="opacity-25">{{ node.ledger_index }}</span> {{ node.name }}</div> <span class="opacity-25">{{ node.txn_count }}</span>
 		
 		<div class="col mb-0">
 			<div class="mb-2" v-if="debounced_tx !== undefined && debounced_tx['main'] !== undefined">
@@ -85,7 +85,7 @@ export default {
 				command: 'fee'
 			})
 			this.connections[connection].current_queue_size = fee.current_queue_size
-			this.connections[connection].current_ledger_size = fee.current_ledger_size
+			this.connections[connection].txn_count = fee.txn_count
 			await this.pause(400)
 			await this.queue(connection)
 		},
@@ -112,7 +112,7 @@ export default {
                 client: new XrplClient(connection),
                 name: name,
                 current_queue_size: 0,
-                current_ledger_size: 0,
+                txn_count: 0,
                 ledger_index: 0,
 				peers: 0
             }
@@ -163,7 +163,7 @@ export default {
 			const ledger = async (tx) => {
 				// console.log(tx)
 				this.connections[connection].ledger_index = tx.ledger_index
-				this.connections[connection].current_ledger_size = tx.txn_count
+				this.connections[connection].txn_count = tx.txn_count
 				// const server_info = await this.connections[connection].client.send({'id': 'three-server-fee', 'command': 'server_info'})
 				// this.connections[connection].peers = (server_info.info?.peers === undefined) ? '-' : server_info.info?.peers
 
