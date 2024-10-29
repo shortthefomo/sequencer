@@ -25,7 +25,7 @@ export default {
 	data() {
 		return {
 			peers: 0,
-			window_size: 2,
+			window_size: 1,
 			ledger_index: 0,
 			transactions_proposed: {},
 			debounced_transactions: undefined,
