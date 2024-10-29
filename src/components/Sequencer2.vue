@@ -1,7 +1,7 @@
 <template>
 	<div v-if="!loaded" class="spinner-border" role="status"></div>
 	<div v-if="loaded" class="row row-cols-1 mt-4 mb-1" v-for="(node, index) in connections">
-		<div class="col mb-0"><span class="opacity-25">{{ node.ledger_index }}</span> {{ node.name }} <span class="opacity-25">{{ node.txn_count }}</span></div>
+		<div class="col mb-0"><span class="opacity-25">{{ node.ledger_index }}</span> {{ node.name }} <span class="opacity-25">{{ node.txn_count }}tx</span></div>
 		
 		<div class="col mb-0">
 			<div class="mb-2" v-if="debounced_tx !== undefined && debounced_tx['main'] !== undefined">
