@@ -230,9 +230,9 @@ html {
 }
 .transaction.faded {
 //   opacity: 0.8;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 0.3s, opacity 0.3s linear;
+//   visibility: hidden;
+//   opacity: 0;
+//   transition: visibility 0s 0.3s, opacity 0.3s linear;
 }
 
 .validated.address {
