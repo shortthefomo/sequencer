@@ -110,6 +110,7 @@ export default {
 			return classes
 		},
 		async loadClient(connection, name) {
+			let current_index = 0
             console.log('load client', this.nodes[connection].name)
             this.connections[connection] = {
                 client: new XrplClient(connection),
@@ -148,11 +149,16 @@ export default {
                 if (!found) {
                     this.transactions_proposed['main'].unshift(tx.transaction.hash)
                 }
-				
-				
+				if (tx.ledger_current_index !== undefined && tx.ledger_current_index > current_index) {
+					current_index = tx.ledger_current_index
+				}
+				if (tx.ledger_index !== undefined && tx.ledger_index > current_index) {
+					current_index = tx.ledger_index
+				}
+				const size = current_index - this.window_size
                 for (const [key, item] of Object.entries(this.transactions_proposed[connection])) {
-                    if (item.ledger_current_index !== undefined && item.ledger_current_index >= (this.connections[connection].ledger_index - this.window_size)) { continue }
-                    if (item.ledger_index !== undefined && item.ledger_index >= (this.connections[connection].ledger_index - this.window_size)) { continue }
+                    if (item.ledger_current_index !== undefined && item.ledger_current_index >= size) { continue }
+                    if (item.ledger_index !== undefined && item.ledger_index >= size) { continue }
                     const tx = this.transactions_proposed[connection][key]
                     
                     const index = this.transactions_proposed['main'].indexOf(tx.transaction.hash)
